@@ -1,1 +1,36 @@
-spring.application.name=spring-practice-gateway-gradle
+spring:
+    application:
+        name: spring-practice-gateway-gradle
+    
+    security:
+        oauth2:
+            resourceserver:
+                jwt:
+                    issuer-uri: http://localhost:9000
+    
+    cloud:
+        gateway:
+            server:
+                webflux:
+                    routes:
+                        -   id: spring-practice-rest-mvc
+                            uri: http://localhost:8081
+                            predicates:
+                                - Path= /api/v1/**
+                        -   id: spring-practice-reactive
+                            uri: http://localhost:8082
+                            predicates:
+                                - Path= /api/v2/**
+                        -   id: spring-practice-reactive-mongo
+                            uri: http://localhost:8083
+                            predicates:
+                                - Path= /api/v3/**
+server:
+    port: 8080
+
+#logging:
+#    level:
+#        root: error
+#        reactor.netty: trace
+#        org.springframework.cloud.gateway: trace
+#        org.springframework.http.server.reactive: trace
